@@ -1,0 +1,16 @@
+#/bin/bash
+
+gc_cont=`grep -v ">" $1 | sort | uniq | grep -o -n "[G|C|g|c]" | wc -l;`
+nu_cont=`grep -v ">" $1 | sort | uniq | grep -o -n "[A|T|G|C|a|t|g|c|N|n]" | wc -l;`
+
+#echo $gc_cont;
+#echo $nu_cont;
+
+gc_amt=`echo "scale=5 ; $gc_cont / $nu_cont" | bc`
+gc_per=`echo "scale=3 ; $gc_amt * 100" | bc`
+
+name=`echo $1 | rev | cut -c 5- | rev`
+
+echo "------------------------------------------"
+echo "$name GC Content: $gc_per%"
+echo "------------------------------------------"
